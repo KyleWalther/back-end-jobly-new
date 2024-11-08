@@ -3,7 +3,6 @@
 /** Express app for jobly. */
 
 const express = require("express");
-const cors = require("cors");
 
 const { NotFoundError } = require("./expressError");
 
@@ -22,11 +21,6 @@ app.use((req, res, next) => {
   console.log(`Incoming request to: ${req.method} ${req.originalUrl}`);
   next();
 });
-
-// CORS setup allowing both local and production frontends
-app.use(cors({
-  origin: ['http://localhost:3000', 'https://front-end-jobly.onrender.com'],
-}));
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -56,4 +50,5 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
 
