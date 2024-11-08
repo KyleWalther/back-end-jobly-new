@@ -1,5 +1,4 @@
-"use strict";
-
+// Import necessary modules
 const app = require("./app");
 const { PORT } = require("./config");
 const cors = require("cors");  // Import the CORS middleware
@@ -23,9 +22,10 @@ const corsOptions = {
   credentials: true,
 };
 
-// Apply CORS middleware with your options
+// Apply CORS middleware with your options (ensure it's before routes)
 app.use(cors(corsOptions));
 
+// Now define your routes...
 app.listen(PORT, function () {
   console.log(`Started on http://localhost:${PORT}`);
 });
