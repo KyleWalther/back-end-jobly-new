@@ -17,18 +17,27 @@ const morgan = require("morgan");
 
 const app = express();
 
+// Log incoming requests
+app.use((req, res, next) => {
+  console.log(`Incoming request to: ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+// CORS setup allowing both local and production frontends
 app.use(cors({
-  origin: 'http://localhost:3000', // Your React app origin
+  origin: ['http://localhost:3000', 'https://front-end-jobly.onrender.com'],
 }));
+
 app.use(express.json());
 app.use(morgan("tiny"));
-app.use(authenticateJWT);
 
+// Authentication should only apply after auth routes are set up
 app.use("/auth", authRoutes);
 app.use("/companies", companiesRoutes);
 app.use("/users", usersRoutes);
 app.use("/jobs", jobsRoutes);
 
+app.use(authenticateJWT);  // Apply JWT after the authentication routes
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
@@ -47,3 +56,4 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
